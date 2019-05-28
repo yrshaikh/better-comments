@@ -22,13 +22,12 @@ module.exports = (robot) => {
     const owner = context.payload.repository.owner.login
     const repo = context.payload.repository.name
     const number = context.payload.number
-
+    
     const {commentLimit, commentMessage, skipBranchMatching} = await context.config('better-comments-bot.yml', {
       commentLimit: 10,
-      commentMessage: 'Please use better language :pray:',
+      commentMessage: 'Please use better language in your comments :pray:',
       skipBranchMatching: null
     })
-
     // Check if we should skip this branch
     const branchName = context.payload.pull_request.head.ref
     const regex = new RegExp(skipBranchMatching)
@@ -61,11 +60,8 @@ module.exports = (robot) => {
 
         const lines = file.patch.split('\n')
         for (const line of lines) {
-          if (line.startsWith('+') &&
-            (
-              line.includes('shit') ||
-              line.includes('wtf'))
-          ) {
+          console.log("verifying")
+          if (line.startsWith('+') && isDecent(line)) {
             if (!linesCommentedOnByBot.includes(currentPosition)) {
               comments.push({
                 path: file.filename,
@@ -95,4 +91,8 @@ module.exports = (robot) => {
       })
     }
   })
+}
+
+function isDecent(line) {
+  return line.includes('shit') || line.includes('wtf');
 }
