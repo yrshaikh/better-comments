@@ -94,5 +94,8 @@ module.exports = (robot) => {
 }
 
 function isDecent(line) {
-  return line.includes('shit') || line.includes('wtf');
+  return line.includes('shit') 
+  || line.includes('wtf')
+  || line.includes('fuck')
+  || line.includes('duck');
 }
